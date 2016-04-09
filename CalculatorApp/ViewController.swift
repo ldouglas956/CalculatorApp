@@ -5,6 +5,8 @@
 //  Created by Lance Douglas on 4/7/16.
 //  Copyright © 2016 Lance Douglas. All rights reserved.
 //
+// Created with help from Devslopes and Udemy.com
+//
 
 import UIKit
 import AVFoundation
@@ -17,13 +19,14 @@ class ViewController: UIViewController {
 		case Multiply = "*"
 		case Divide = "/"
 		case Empty = "Empty"
+		case Clear = "Clear"
 	}
 	
 	@IBOutlet weak var outputlbl: UILabel!
 	
 	var btnSound: AVAudioPlayer!
 	
-	var runningNumber = ""
+	var runningNumber = "0.0"
 	var leftValStr = ""
 	var rightValStr = ""
 	var result = ""
@@ -52,6 +55,9 @@ class ViewController: UIViewController {
 	@IBAction func numberPressed(btn: UIButton!) {
 		playSound()
 		
+		if runningNumber == "0" {
+			runningNumber = ""
+		}
 		runningNumber += "\(btn.tag)"
 		outputlbl.text = runningNumber
 	}
@@ -70,6 +76,9 @@ class ViewController: UIViewController {
 	}
 	@IBAction func onEqualsPressed(sender: UIButton) {
 		processOperation(currentOperation)
+	}
+	@IBAction func onClearPressed(sender: UIButton) {
+		operationClear()
 	}
 	
 	func processOperation(op: Operation) {
@@ -109,6 +118,16 @@ class ViewController: UIViewController {
 			runningNumber = ""
 			currentOperation = op
 		}
+	}
+	
+	func operationClear() {
+		runningNumber = "0"
+		leftValStr = "0"
+		rightValStr = "0"
+		result = "0"
+		outputlbl.text = "0"
+		
+		currentOperation = Operation.Empty
 	}
 	
 	func playSound() {
